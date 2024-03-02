@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
+const mongoSanitize = require('express-mongo-sanitize');
 
 const company = require('./routes/companyRoutes');
 const session = require('./routes/sessionRoutes');
@@ -14,6 +15,7 @@ connectDB();
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(mongoSanitize());
 
 app.use('/companies', company);
 app.use('/auth', user);
