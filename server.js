@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const { xss } = require('express-xss-sanitizer');
 
 const company = require('./routes/companyRoutes');
 const session = require('./routes/sessionRoutes');
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(mongoSanitize());
 app.use(helmet());
+app.use(xss());
 
 app.use('/companies', company);
 app.use('/auth', user);
