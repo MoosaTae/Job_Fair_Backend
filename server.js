@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const { xss } = require('express-xss-sanitizer');
 const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
+const cors = require('cors');
 
 const company = require('./routes/companyRoutes');
 const session = require('./routes/sessionRoutes');
@@ -22,14 +23,14 @@ app.use(cookieParser());
 app.use(mongoSanitize());
 app.use(helmet());
 app.use(xss());
+app.use(hpp());
+app.use(cors());
 
 const limiter = rateLimit({
   windowsMs: 10 * 60 * 1000, //10 mins
   max: 50,
 });
 app.use(limiter);
-
-app.use(hpp());
 
 app.use('/companies', company);
 app.use('/auth', user);
