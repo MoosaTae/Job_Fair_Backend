@@ -6,6 +6,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const { xss } = require('express-xss-sanitizer');
 const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
 
 const company = require('./routes/companyRoutes');
 const session = require('./routes/sessionRoutes');
@@ -27,6 +28,8 @@ const limiter = rateLimit({
   max: 50,
 });
 app.use(limiter);
+
+app.use(hpp());
 
 app.use('/companies', company);
 app.use('/auth', user);
