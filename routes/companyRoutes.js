@@ -7,9 +7,13 @@ const {
   deleteCompany,
 } = require('../controllers/companyController');
 
+const sessionRouter = require('./sessionRoutes');
+
 const router = express.Router();
 
 const { protect, authorize } = require('../middleware/authMiddleware');
+
+router.use('/:companyId/sessions/', sessionRouter);
 
 router
   .route('/')
