@@ -41,7 +41,7 @@ app.use('/uploads', express.static('uploads'));
 const PORT = process.env.PORT || 5000;
 const server = app.listen(
   PORT,
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`),
+  console.log(`Server running in ${process.env.HOST} mode on port ${PORT}`),
 );
 
 // eslint-disable-next-line
