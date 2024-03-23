@@ -32,7 +32,7 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-app.get('/', (req, res) => res.send('Express on Vercel'));
+app.get('/api', (req, res) => res.send('Express on Vercel'));
 app.use('/api/company', company);
 app.use('/api/auth', user);
 app.use('/api/sessions', session);
