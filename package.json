@@ -10,8 +10,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "precommit": "npm run lint && npm run format",
-    "prepare": "husky",
-    "build": "echo \"Building the project...\""
+    "prepare": "husky"
   },
   "author": "",
   "license": "ISC",
