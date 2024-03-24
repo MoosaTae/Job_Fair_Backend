@@ -32,6 +32,7 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+app.get('/', (req, res) => res.send('Express on Vercel'));
 app.use('/company', company);
 app.use('/auth', user);
 app.use('/sessions', session);
@@ -40,7 +41,7 @@ app.use('/uploads', express.static('uploads'));
 const PORT = process.env.PORT || 5000;
 const server = app.listen(
   PORT,
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`),
+  console.log(`Server running in ${process.env.HOST} mode on port ${PORT}`),
 );
 
 // eslint-disable-next-line
@@ -48,3 +49,5 @@ process.on('unhandledRejection', (err, promise) => {
   console.log(`Error: ${err.message}`);
   server.close(() => process.exit(1));
 });
+
+module.exports = app;

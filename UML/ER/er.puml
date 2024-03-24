@@ -1,37 +1,89 @@
 @startuml
-skinparam Linetype ortho
+left to right direction
+package "CLASS-DIAGRAM" {
+    class "<<Application>>\nServer" as Server {}
 
-entity "User" as user {
-  * user_id <<generated>>
-  --
-  * name: String
-  * tel: String
-  * email: String
-  * password: String
-  role: Enum[admin, user]
-  createdAt: Date
+    class "<<Representation>>\nUser" as UserModel {
+        +String name
+        +String email
+        +String tel
+        +String role
+        +String password
+        +DateTime createdAt
+    }
+
+    class "<<Representation>>\ncompany" as companyModel {
+        + company_id <<generated>>
+        + name: String
+        + address: String
+        + website: String
+        + desc: String
+        + tel: String
+    }
+
+    class "<<Representation>>\nSession" as SessionModel {
+        + session_id <<generated>>
+        + userId: String <<FK>>
+        + companyId; String <<FK>>
+        + date: Date
+    }
+
+    class "<<Resource>>\nAuth" as AuthController {
+        <<POST>> +login(): Token
+        <<POST>> +register(): Token
+        <<GET>> +getme(): User
+        <<GET>> +logout(): void
+    }
+
+    
+
+    class "<<Resource>>\nSession" as SessionController {
+        <<POST>> +createSession(): Session
+        <<GET>> +getSession(): Session[]
+    }
+
+    class "<<Resource>>\nSession" as SessionController2 {
+        <<GET>> +getSession(): Session
+        <<PUT>> +updateSession(): Session
+        <<DELETE>> +deleteSession(): void
+    }
+
+
+    class "<<Resource>>\ncompany" as companyController {
+        <<POST>> +createcompany(): company
+        <<GET>> +getcompany(): company[]
+    }
+
+
+    class "<<Resource>>\ncompany" as companyController2 {
+        <<GET>> +getcompany(): company
+        <<PUT>> +updatecompany(): company
+        <<DELETE>> +deletecompany(): void
+    }
+
+
+    class "<<Resource>>\nAuth Middleware" as AuthMiddleware {
+        +protect()
+        +authorize()
+    }
+
+
 }
 
-entity "Session" as session {
-  * session_id <<generated>>
-  --
-  * userId: String <<FK>>
-  * companyId; String <<FK>>
-  date: Date
-}
+Server ..> AuthController : "/auth\n<<Path>>"
+Server ..> SessionController : "/session\n<<Path>>"
+Server ..> companyController : "/company\n<<Path>>"
 
-entity "Company" as company {
-  * company_id <<generated>>
-  --
-  * name: String
-  * address: String
-  * website: String
-  desc: String
-  tel: String
-}
 
-user "1" -- "*" session
-company "1" -- "*" session
 
+AuthController ..> AuthMiddleware : "authenticates"
+
+AuthController ..> UserModel : "data"
+
+companyController ..> companyController2 : "/{company_id}\n<<Path>>"
+companyController2 ..> companyModel : "data"
+
+
+SessionController ..> SessionController2 : "/{Session_id}\n<<Path>>"
+SessionController2 ..> SessionModel : "data"
 @enduml
-
