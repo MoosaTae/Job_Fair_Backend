@@ -11,7 +11,7 @@ exports.getSessions = async (req, res, next) => {
   if (req.user.role !== 'admin') {
     query = Session.find({ user: req.user.id }).populate({
       path: 'company',
-      select: 'name address website desc tel',
+      select: 'name address website desc tel picture',
     });
   }
   // If you are an admin, you can see all!
@@ -19,12 +19,12 @@ exports.getSessions = async (req, res, next) => {
     if (req.params.companyId) {
       query = Session.find({ company: req.params.companyId }).populate({
         path: 'company',
-        select: 'name address website desc tel',
+        select: 'name address website desc tel picture',
       });
     } else {
       query = Session.find().populate({
         path: 'company',
-        select: 'name address website desc tel',
+        select: 'name address website desc tel picture',
       });
     }
   }
@@ -53,12 +53,12 @@ exports.getSession = async (req, res, next) => {
   if (req.user.role !== 'admin') {
     query = Session.find({ _id: req.params.id, user: req.user.id }).populate({
       path: 'company',
-      select: 'name address website desc tel',
+      select: 'name address website desc tel picture',
     });
   } else {
     query = Session.findById(req.params.id).populate({
       path: 'company',
-      select: 'name address website desc tel',
+      select: 'name address website desc tel picture',
     });
   }
 
