@@ -217,8 +217,8 @@ exports.deleteSession = async (req, res, next) => {
 };
 
 function checkDate(date) {
-  return (
-    date >= new Date('2022-05-10T00:00:00Z') &&
-    date <= new Date('2022-05-13T23:59:59Z')
-  );
+  const startDate = new Date('2022-05-09T17:00:00Z'); // Adjusted for GMT+7
+  const endDate = new Date('2022-05-13T16:59:59Z'); // Adjusted for GMT+7
+
+  return date >= startDate && date <= endDate;
 }
